@@ -38,6 +38,13 @@ extern "C" {
 #define EEPROM_ADD_NUMBEROF_ONS_LO    0x51
 #define EEPROM_ADD_NUMBEROF_ONS_HI    0x52
 
+#define EEPROM_ADD_TIMEOUT_AGUA       0x53
+#define EEPROM_ADD_TIMEOUT_ACITE      0x54
+#define EEPROM_ADD_TIMEOUT_AUX1       0x55
+#define EEPROM_ADD_TIMEOUT_AUX2       0x56
+
+//#define EEPROM_ADD_MAX              0xFA // 250
+
 // Values
 #define EEPROM_VAL_OK             0xAA
 
@@ -58,6 +65,17 @@ extern "C" {
 #define ACCESSPOINT_MODE          0
 #define STATION_MODE              1
 #define EEPROM_VAL_WIFI_MODE      ACCESSPOINT_MODE // STATION_MODE
+
+// Manitou
+#define EEPROM_VAL_NUMBEROF_HOURS_LO  0
+#define EEPROM_VAL_NUMBEROF_HOURS_HI  0
+#define EEPROM_VAL_NUMBEROF_ONS_LO    0
+#define EEPROM_VAL_NUMBEROF_ONS_HI    0
+
+#define EEPROM_VAL_TIMEOUT_AGUA       2
+#define EEPROM_VAL_TIMEOUT_ACITE      10
+#define EEPROM_VAL_TIMEOUT_AUX1       1
+#define EEPROM_VAL_TIMEOUT_AUX2       1
 
 #endif // _E2PROM_H_
 

@@ -35,6 +35,10 @@ extern "C" {
 #define DO_ALARMA         12
 #define DI_ACEITE         13
 
+#define IN_STATUS_INIT    0
+#define IN_STATUS_ON      1
+#define IN_STATUS_OFF     2
+
 // Status definition
 #define DOUT_ON       0
 #define DOUT_OFF      1

@@ -11,15 +11,28 @@
 #include "manitou.h"
 #include "wifi.h"
 
-///////////////////
-// IO definition //
-///////////////////
+////////////////////
+// DIO definition //
+////////////////////
 int inMotor;
 int outReleCorte;
 int outLed;
 int outAlarma;
 int inAgua;
 int inAceite;
+int inAux1;
+int inAux2;
+
+int timeoutSecInAgua;
+int timeoutSecInAceite;
+int timeoutSecInAux1;
+int timeoutSecInAux2;
+
+/////////////////////////
+// IN State definition //
+/////////////////////////
+int in1State;
+int in1TimeTick;
 
 ///////////
 // Wi-Fi //
@@ -95,8 +108,8 @@ int timeHour = 0;
 //============//
 void setup(void)
 { 
-  // IO setup
-  _IOSetup();
+  // DIO setup
+  _DIOSetup();
 
   #if (_SERIAL_DEBUG_ == 1)
   delay(5000);  // 5 secs
@@ -120,10 +133,10 @@ void setup(void)
   _ManitouSetup();
 }
 
-//////////////
-// IO steup //
-//////////////
-void _IOSetup(void)
+///////////////
+// DIO steup //
+///////////////
+void _DIOSetup(void)
 { 
   pinMode(DO_LED, OUTPUT);
   digitalWrite(DO_LED, DOUT_OFF);
@@ -147,10 +160,10 @@ void _IOSetup(void)
   inAceite = IO_OFF;
 }
 
-//////////////////////
-// IO state machine //
-//////////////////////
-void _IOLoop()
+///////////////////////
+// DIO state machine //
+///////////////////////
+void _DIOLoop()
 {
   if (outLed == IO_OFF)
     digitalWrite(DO_LED, DOUT_OFF);
@@ -189,7 +202,7 @@ void _IOLoop()
 //===========//
 void loop()
 {
-  _IOLoop();
+  _DIOLoop();
 
   _WifiLoop();
   _WifiLedLoop();

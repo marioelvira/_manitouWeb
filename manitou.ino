@@ -17,6 +17,10 @@ void _ManitouSetup(void)
 void _ManitouLoop(void)
 {
   int eeprom_value_hi, eeprom_value_lo;
+
+  // --------------------- //
+  // Gestion de Contadores //
+  // --------------------- //
   
   if (inMotor == IO_ON)
   {
