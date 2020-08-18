@@ -32,6 +32,12 @@ extern "C" {
 #define EEPROM_ADD_WIFI_PSWD      0x2F
 #define WIFI_PSWD_MAX             32 // Password max 32 char -> Next 0x4F
 
+// Manitou
+#define EEPROM_ADD_NUMBEROF_HOURS_LO  0x4F
+#define EEPROM_ADD_NUMBEROF_HOURS_HI  0x50
+#define EEPROM_ADD_NUMBEROF_ONS_LO    0x51
+#define EEPROM_ADD_NUMBEROF_ONS_HI    0x52
+
 // Values
 #define EEPROM_VAL_OK             0xAA
 

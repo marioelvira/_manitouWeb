@@ -28,6 +28,8 @@ void _readCONFIG (void)
   int j;
   #endif
   byte val[4];
+
+  int eeprom_value_hi, eeprom_value_lo;
   
   EEPROM.begin(512);
     
@@ -79,6 +81,13 @@ void _readCONFIG (void)
       EEPROM.write(EEPROM_ADD_WIFI_PSWD + i, passwordSt[i]);
     #endif
     */
+
+    // Manitou Data
+    EEPROM.write(EEPROM_ADD_NUMBEROF_HOURS_LO, 0x00);
+    EEPROM.write(EEPROM_ADD_NUMBEROF_HOURS_HI, 0x00);
+
+    EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_LO,   0x00);
+    EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_HI,   0x00);
 
     EEPROM.commit();    //Store data to EEPROM
   }
@@ -162,6 +171,15 @@ void _readCONFIG (void)
     #endif
   }
   */
+
+  // Manitou Data
+  eeprom_value_lo = EEPROM.read(EEPROM_ADD_NUMBEROF_HOURS_LO);
+  eeprom_value_hi = EEPROM.read(EEPROM_ADD_NUMBEROF_HOURS_HI);
+  manitouNumberOfHours = ((eeprom_value_hi & 0x00FF)<<8)|(eeprom_value_lo & 0x00FF);
+
+  eeprom_value_lo = EEPROM.read(EEPROM_ADD_NUMBEROF_ONS_LO);
+  eeprom_value_hi = EEPROM.read(EEPROM_ADD_NUMBEROF_ONS_HI);
+  manitouNumberOfOns = ((eeprom_value_hi & 0x00FF)<<8)|(eeprom_value_lo & 0x00FF);
 }
 
 void _ResetEEPROM() {

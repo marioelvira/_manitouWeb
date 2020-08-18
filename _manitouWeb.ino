@@ -76,9 +76,11 @@ int httpStatus;
 /////////////////////
 // Manitou Control //
 /////////////////////
-int manitouNumberOfStarts = 0;
-int manutouJustStart = 0;
+int manitouNumberOfOns = 0;
+int manitouNumberOfOns2Save = 1;
 int manitouNumberOfHours = 0;
+int manitouNumberOfHours2Save = 1;
+int manitouNumberOfHours2Increment = 1;
 
 //////////
 // Time //
