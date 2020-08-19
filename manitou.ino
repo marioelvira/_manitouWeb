@@ -33,13 +33,19 @@ void _ManitouLoop(void)
       eeprom_value_lo = manitouNumberOfOns & 0x00FF;
       eeprom_value_hi = (manitouNumberOfOns & 0xFF00)>>8;
       EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_LO, eeprom_value_lo);
-      EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_HI, eeprom_value_hi);     
+      EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_HI, eeprom_value_hi);
+      EEPROM.commit();
+         
+      #if (_MANITOU_SERIAL_DEBUG_ == 1)
+      Serial.print("Saving Ons -> "); Serial.println(manitouNumberOfOns);
+      #endif
       
       manitouNumberOfOns2Save = 0;
     }
 
     // Cada 10 minutos 
-    if ((timeMin % 10) == 0)
+    //if ((timeMin % 10) == 0) && (timeSec == 0))
+    if ((timeSec % 9) == 0)
     {
       // Incrementamos en decimas de hora
       if (manitouNumberOfHours2Increment == 1)
@@ -51,7 +57,8 @@ void _ManitouLoop(void)
       manitouNumberOfHours2Increment = 1;
 
     // Cada 30 minutos
-    if ((timeMin % 30) == 0)
+    //if ((timeMin % 30) == 0) && (timeSec == 0))
+    if ((timeSec % 28) == 0)
     {      
       // Incrementamos en decimas de hora
       if (manitouNumberOfHours2Save == 1)
@@ -59,7 +66,13 @@ void _ManitouLoop(void)
         eeprom_value_lo = manitouNumberOfHours & 0x00FF;
         eeprom_value_hi = (manitouNumberOfHours & 0xFF00)>>8;
         EEPROM.write(EEPROM_ADD_NUMBEROF_HOURS_LO, eeprom_value_lo);
-        EEPROM.write(EEPROM_ADD_NUMBEROF_HOURS_HI, eeprom_value_hi); 
+        EEPROM.write(EEPROM_ADD_NUMBEROF_HOURS_HI, eeprom_value_hi);
+        EEPROM.commit();
+        
+        #if (_MANITOU_SERIAL_DEBUG_ == 1)
+        Serial.print("Saving Hours -> "); Serial.println(manitouNumberOfHours);
+        #endif
+
       }
       
       manitouNumberOfHours2Save = 0;

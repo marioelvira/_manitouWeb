@@ -110,6 +110,7 @@ void setup(void)
 { 
   // DIO setup
   _DIOSetup();
+  _IOSetup();
 
   #if (_SERIAL_DEBUG_ == 1)
   delay(5000);  // 5 secs
@@ -203,6 +204,7 @@ void _DIOLoop()
 void loop()
 {
   _DIOLoop();
+  _IO1Loop();
 
   _WifiLoop();
   _WifiLedLoop();

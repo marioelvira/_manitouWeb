@@ -560,7 +560,9 @@ void _readTEMPS()
 { 
   String html = "";
 
-  html = String(timeHour) + " : " + String(timeMin) + " : " + String(timeSec);
+  html = "<div>Tiempo ON: " + String(timeHour) + " : " + String(timeMin) + " : " + String(timeSec) + "</div>";
+  html = html + "<div>Horas ON: " + String(manitouNumberOfHours) + "</div>";
+  html = html + "<div>Arranques: " + String(manitouNumberOfOns) + "</div>";
 
   httpServer.send(200, "text/plane", html);
 }

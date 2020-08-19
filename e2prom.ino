@@ -190,6 +190,16 @@ void _readCONFIG (void)
   timeoutSecInAceite = EEPROM.read(EEPROM_ADD_TIMEOUT_ACITE);
   timeoutSecInAux1   = EEPROM.read(EEPROM_ADD_TIMEOUT_AUX1);
   timeoutSecInAux2   = EEPROM.read(EEPROM_ADD_TIMEOUT_AUX2);
+
+  #if (_EEPROM_SERIAL_DEBUG_ == 1)
+  Serial.print("Horas ON: ");        Serial.println(manitouNumberOfHours);
+  Serial.print("Arranques: ");       Serial.println(manitouNumberOfOns);
+  
+  Serial.print("Time Out Agua: ");   Serial.println(timeoutSecInAgua);
+  Serial.print("Time Out Aceite: "); Serial.println(timeoutSecInAceite);
+  Serial.print("Time Out Aux1: ");   Serial.println(timeoutSecInAux1);
+  Serial.print("Time Out Aux2: ");   Serial.println(timeoutSecInAux2);
+  #endif
 }
 
 void _ResetEEPROM() {
