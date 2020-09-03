@@ -14,25 +14,19 @@
 ////////////////////
 // DIO definition //
 ////////////////////
-int inMotor;
 int outReleCorte;
 int outLed;
 int outAlarma;
-int inAgua;
-int inAceite;
-int inAux1;
-int inAux2;
-
-int timeoutSecInAgua;
-int timeoutSecInAceite;
-int timeoutSecInAux1;
-int timeoutSecInAux2;
 
 /////////////////////////
-// IN State definition //
+// IO State definition //
 /////////////////////////
-int in1State;
-int in1TimeTick;
+int inValue[5];
+int inState[4];
+int inTimeTick[4];
+int outValue[4];
+int outAlarm[4];
+int inTimeoutSec[4];
 
 ///////////
 // Wi-Fi //
@@ -89,6 +83,7 @@ int httpStatus;
 /////////////////////
 // Manitou Control //
 /////////////////////
+int manitouControlMode = MODE_AUTO;
 int manitouNumberOfOns = 0;
 int manitouNumberOfOns2Save = 1;
 int manitouNumberOfHours = 0;
@@ -103,14 +98,58 @@ int timeSec = 0;
 int timeMin = 0;
 int timeHour = 0;
 
+///////////////
+// PIN steup //
+///////////////
+void _PINSetup(void)
+{ 
+  //------//
+  // OUTS //
+  //------//
+  
+  pinMode(PIN_LED, OUTPUT);
+  digitalWrite(PIN_LED, PIN_OUT_OFF);
+  outLed = OUT_OFF;
+
+  pinMode(PIN_RELE_CORTE, OUTPUT);
+  digitalWrite(PIN_RELE_CORTE, PIN_OUT_OFF);
+  outReleCorte = OUT_OFF;
+
+  pinMode(PIN_ALARMA, OUTPUT);
+  digitalWrite(PIN_ALARMA, PIN_OUT_OFF);
+  outAlarma = OUT_OFF;
+
+  //-----//
+  // INS //
+  //-----//
+  
+  pinMode(PIN_MOTOR, INPUT);
+  inValue[INDEX_MOTOR] = IN_OFF;
+
+  pinMode(PIN_AGUA, INPUT);
+  inValue[INDEX_AGUA] = IN_OFF;
+
+  pinMode(PIN_ACEITE, INPUT);
+  inValue[INDEX_ACEITE] = IN_OFF;
+
+  pinMode(PIN_AUX1, INPUT);
+  inValue[INDEX_AUX1] = IN_OFF;
+
+  pinMode(PIN_AUX2, INPUT);
+  inValue[INDEX_AUX2] = IN_OFF;
+}
+
 //============//
 // MAIN SETUP //
 //============//
 void setup(void)
 { 
-  // DIO setup
-  _DIOSetup();
-  _IOSetup();
+  _PINSetup();
+  
+  _IOSetup(INDEX_AGUA);   // Agua
+  _IOSetup(INDEX_ACEITE); // Aceite
+  _IOSetup(INDEX_AUX1);   // Aux1
+  _IOSetup(INDEX_AUX2);   // Aux2
 
   #if (_SERIAL_DEBUG_ == 1)
   delay(5000);  // 5 secs
@@ -134,68 +173,58 @@ void setup(void)
   _ManitouSetup();
 }
 
-///////////////
-// DIO steup //
-///////////////
-void _DIOSetup(void)
-{ 
-  pinMode(DO_LED, OUTPUT);
-  digitalWrite(DO_LED, DOUT_OFF);
-  outLed = IO_OFF;
-
-  pinMode(DO_RELE_CORTE, OUTPUT);
-  digitalWrite(DO_RELE_CORTE, DOUT_OFF);
-  outReleCorte = IO_OFF;
-
-  pinMode(DO_ALARMA, OUTPUT);
-  digitalWrite(DO_ALARMA, DOUT_OFF);
-  outAlarma = IO_OFF;
-
-  pinMode(DI_MOTOR, INPUT);
-  inMotor = IO_OFF;
-
-  pinMode(DI_AGUA, INPUT);
-  inAgua = IO_OFF;
-
-  pinMode(DI_ACEITE, INPUT);
-  inAceite = IO_OFF;
-}
-
 ///////////////////////
-// DIO state machine //
+// PIN state machine //
 ///////////////////////
-void _DIOLoop()
+void _PINLoop()
 {
-  if (outLed == IO_OFF)
-    digitalWrite(DO_LED, DOUT_OFF);
-  else
-    digitalWrite(DO_LED, DOUT_ON);
-
-  if (outAlarma == IO_OFF)
-    digitalWrite(DO_ALARMA, DOUT_OFF);
-  else
-    digitalWrite(DO_ALARMA, DOUT_ON);
-
-  if (outReleCorte == IO_OFF)
-    digitalWrite(DO_RELE_CORTE, DOUT_OFF);
-  else
-    digitalWrite(DO_RELE_CORTE, DOUT_ON);
-
-  if (digitalRead(DI_MOTOR))
-    inMotor = IO_OFF;
-  else
-    inMotor = IO_ON;
-
-  if (digitalRead(DI_AGUA))
-    inAgua = IO_OFF;
-  else
-    inAgua = IO_ON;
-
-  if (digitalRead(DI_ACEITE))
-    inAceite = IO_OFF;
-  else
-    inAceite = IO_ON;
+  //------//
+  // OUTS //
+  //------//
   
+  if (outLed == OUT_OFF)
+    digitalWrite(PIN_LED, PIN_OUT_OFF);
+  else
+    digitalWrite(PIN_LED, PIN_OUT_ON);
+
+  if (outAlarma == OUT_OFF)
+    digitalWrite(PIN_ALARMA, PIN_OUT_OFF);
+  else
+    digitalWrite(PIN_ALARMA, PIN_OUT_ON);
+
+  if (outReleCorte == OUT_OFF)
+    digitalWrite(PIN_RELE_CORTE, PIN_OUT_OFF);
+  else
+    digitalWrite(PIN_RELE_CORTE, PIN_OUT_ON);
+
+  //-----//
+  // INS //
+  //-----//
+  
+  if (digitalRead(PIN_MOTOR) == PIN_IN_OFF)
+    inValue[INDEX_MOTOR] = IN_OFF;
+  else
+    inValue[INDEX_MOTOR] = IN_ON;
+
+  if (digitalRead(PIN_AGUA) == PIN_IN_OFF)
+    inValue[INDEX_AGUA] = IN_OFF;
+  else
+    inValue[INDEX_AGUA] = IN_ON;
+
+  if (digitalRead(PIN_ACEITE) == PIN_IN_OFF)
+    inValue[INDEX_ACEITE] = IN_OFF;
+  else
+    inValue[INDEX_ACEITE] = IN_ON;
+
+  if (digitalRead(PIN_AUX1) == PIN_IN_OFF)
+    inValue[INDEX_AUX1] = IN_OFF;
+  else
+    inValue[INDEX_AUX1] = IN_ON;
+
+  if (digitalRead(PIN_AUX2) == PIN_IN_OFF)
+    inValue[INDEX_AUX2] = IN_OFF;
+  else
+    inValue[INDEX_AUX2] = IN_ON;
 }
 
 //===========//
@@ -203,8 +232,15 @@ void _DIOLoop()
 //===========//
 void loop()
 {
-  _DIOLoop();
-  _IO1Loop();
+  _PINLoop();
+  
+  _IOLoop(INDEX_AGUA);    // Agua
+  _IOLoop(INDEX_ACEITE);  // Aceite
+  //_IOLoop(INDEX_AUX1);  // Aux1
+  //_IOLoop(INDEX_AUX2);  // Aux2
+
+  if (manitouControlMode == MODE_AUTO)
+    _OUTSLoop();
 
   _WifiLoop();
   _WifiLedLoop();

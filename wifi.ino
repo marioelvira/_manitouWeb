@@ -165,16 +165,16 @@ void _WifiLedLoop()
   {
     case WIFI_START_ACCESSPOINT:
       wifiLEDTick = millis();
-      outLed = IO_OFF;
+      outLed = OUT_ON;
       break;
 
     case WIFI_ON_ACCESSPOINT:
       if (millis() - wifiLEDTick >= WIFI_BLINK_ACCESSPOINT)
       {
-        if (outLed == IO_OFF)
-          outLed = IO_ON;
+        if (outLed == OUT_ON)
+          outLed = OUT_OFF;
         else
-          outLed = IO_OFF;
+          outLed = OUT_ON;
 
         wifiLEDTick = millis();
 

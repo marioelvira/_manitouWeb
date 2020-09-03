@@ -1,53 +1,76 @@
 
-///////////////////////
-// IO1 state machine //
-///////////////////////
-void _IOSetup(void)
+//////////////////////
+// IO state machine //
+//////////////////////
+void _IOSetup(int i)
 {
-  in1State = IN_STATUS_INIT;
+  inState[i] = IN_STATUS_INIT;
+  outValue[i] = OUT_OFF;
+  outAlarm[i] = OUT_OFF;
 }
 
-///////////////////////
-// IO1 state machine //
-///////////////////////
-void _IO1Loop(void)
+//////////////////////
+// IO state machine //
+//////////////////////
+void _IOLoop(int i)
 {
-  switch (in1State)
+  switch (inState[i])
   {
 	  case IN_STATUS_INIT:
-      in1TimeTick = millis();
-      if (inAgua == IO_ON)
-        in1State = IN_STATUS_ON;
+      inTimeTick[i] = millis();
+      if (inValue[i] == IN_ON)
+        inState[i] = IN_STATUS_ON;
       else
-        in1State = IN_STATUS_OFF;
+        inState[i] = IN_STATUS_OFF;
 
       break;
       
 	  case IN_STATUS_ON:
-      if (inAgua == IO_OFF)
+      if (inValue[i] == IN_OFF)
       {
-        in1State = IN_STATUS_INIT;
-        // TODO
-        outReleCorte = IO_OFF;
-        outAlarma = IO_OFF;
+        inState[i] = IN_STATUS_INIT;
+        outValue[i] = OUT_OFF;
+        outAlarm[i] = OUT_OFF;
       }
       else
       {
-        if (millis() - in1TimeTick >= timeoutSecInAgua)
+        if (millis() - inTimeTick[i] >= inTimeoutSec[i])
         {
-          // TODO - Relé de Corte
-          outReleCorte = IO_ON;
+          // Rele de corte
+          outValue[i] = OUT_ON;
         }
-        // TODO - Indicar Alarma
-        outAlarma = IO_ON;
+
+        // Indicar Alarma
+        outAlarm[i] = OUT_ON;
       }
       break;
       
-	  case IN_STATUS_OFF:  
-      in1TimeTick = millis();
-      if (inAgua == IO_ON)
-        in1State = IN_STATUS_ON;
+	  case IN_STATUS_OFF:
+
+      outValue[i] = OUT_OFF;
+      outAlarm[i] = OUT_OFF;
+   
+      inTimeTick[i] = millis();
+      if (inValue[i] == IN_ON)
+        inState[i] = IN_STATUS_ON;
 
 	    break;
+  }
+}
+
+void _OUTSLoop (void)
+{
+  int i;
+
+  outReleCorte = OUT_OFF;
+  outAlarma = OUT_OFF;
+  
+  for (i = 0; i < 4; i++)
+  {
+    if (outValue[i] == OUT_ON)
+      outReleCorte |= OUT_ON;
+
+    if (outAlarm[i] == OUT_ON)
+      outAlarma |= OUT_ON;
   }
 }

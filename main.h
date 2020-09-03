@@ -16,6 +16,8 @@ extern "C" {
 #define _WIFI_SERIAL_DEBUG_        1
 #define _MANITOU_SERIAL_DEBUG_     1
 
+#define _MANITOU_DEBUG_            1
+
 #endif // _MAIN_H_
 
 #ifdef __cplusplus

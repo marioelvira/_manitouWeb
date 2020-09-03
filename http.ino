@@ -36,9 +36,12 @@ void _serveMAIN()
   html = html + "<h2>Temporizaciones:</h2><p id=\"TEMPSid\">...</p>";
   html = html + "<h2>Entradas Digitales:</h2><p id=\"INSid\">...</p>";
   html = html + "<h2>Salidas Digitales:</h2><p id=\"OUTSid\">...</p>";
-  html = html + "  <p><input type=\"button\" value=\"Rele\" onclick=\"sendOUT(1)\"><p>";
-  html = html + "  <p><input type=\"button\" value=\"Alarma\" onclick=\"sendOUT(2)\"><p>";
-  //html = html + "  <p><a href=\"settings.htm\"><input type=\"button\" value=\"Settings\"></a><p>";
+  html = html + "<h2>Control:</h2><p>";
+  html = html + "  <input type=\"button\" value=\"Modo\" onclick=\"sendOUT(0)\">";
+  html = html + "  <input type=\"button\" value=\"Rele\" onclick=\"sendOUT(1)\">";
+  html = html + "  <input type=\"button\" value=\"Alarma\" onclick=\"sendOUT(2)\">";
+  //html = html + "  <a href=\"settings.htm\"><input type=\"button\" value=\"Settings\"></a>";
+  html = html + "</p>";
   html = html + "</div>";
 
   html = html + "<script>";
@@ -466,20 +469,35 @@ void _readINS()
 { 
   String html = "";
 
-  if (inMotor == IO_ON)
-   html = "<div>Motor: ON</div>";
+  if (manitouControlMode == MODE_AUTO)
+   html = "<div>Mode: Auto</div>";
   else
-   html = "<div>Motor: OFF</div>";
+   html = "<div>Mode: Test</div>";
 
-  if (inAgua == IO_ON)
+  if (inValue[INDEX_MOTOR] == IN_ON)
+   html = html + "<div>Motor: ON</div>";
+  else
+   html = html + "<div>Motor: OFF</div>";
+
+  if (inValue[INDEX_AGUA] == IN_ON)
    html = html + "<div>Alarma Agua: ON</div>";
   else
    html = html + "<div>Alarma Agua: OFF</div>";
 
-  if (inAceite == IO_ON)
+  if (inValue[INDEX_ACEITE] == IN_ON)
    html = html + "<div>Alarma Aceite: ON</div>";
   else
    html = html + "<div>Alarma Aceite: OFF</div>";
+
+  if (inValue[INDEX_AUX1] == IN_ON)
+   html = html + "<div>Alarma Aux1: ON</div>";
+  else
+   html = html + "<div>Alarma Aux1: OFF</div>";
+
+  if (inValue[INDEX_AUX2] == IN_ON)
+   html = html + "<div>Alarma Aux2: ON</div>";
+  else
+   html = html + "<div>Alarma Aux2: OFF</div>";
 
   httpServer.send(200, "text/plane", html);
 }
@@ -488,12 +506,12 @@ void _readOUTS()
 {
   String html = "";
   
-  if (outReleCorte == IO_ON)
+  if (outReleCorte == OUT_ON)
    html = "<div>Rele Corte: ON</div>";
   else
    html = "<div>Rele Corte: OFF</div>";
 
-  if (outAlarma == IO_ON)
+  if (outAlarma == OUT_ON)
    html = html + "<div>Aviso Alarma: ON</div>";
   else
    html = html + "<div>Aviso Alarma: OFF</div>";
@@ -511,12 +529,33 @@ void _setOUTS()
   Serial.println(out_number);
   #endif
 
+  // Modo
+  if(out_number == "0")
+  {
+    if (manitouControlMode == MODE_TEST)
+    {
+      manitouControlMode = MODE_AUTO;
+      #if (_HTTP_SERIAL_DEBUG_ == 1)
+      Serial.println("Modo Auto");
+      #endif
+      html = "Modo Auto";
+    }
+    else
+    {
+      manitouControlMode = MODE_TEST;
+      #if (_HTTP_SERIAL_DEBUG_ == 1)
+      Serial.println("Modo Test");
+      #endif
+      html = "Mode Test";
+    }
+  }
+
   // Relé corte
   if(out_number == "1")
   {
-    if (outReleCorte == IO_ON)
+    if (outReleCorte == OUT_ON)
     {
-      outReleCorte = IO_OFF;
+      outReleCorte = OUT_OFF;
       #if (_HTTP_SERIAL_DEBUG_ == 1)
       Serial.println("Rele OFF");
       #endif
@@ -524,7 +563,7 @@ void _setOUTS()
     }
     else
     {
-      outReleCorte = IO_ON;
+      outReleCorte = OUT_ON;
       #if (_HTTP_SERIAL_DEBUG_ == 1)
       Serial.println("Rele ON");
       #endif
@@ -535,9 +574,9 @@ void _setOUTS()
   // Alarma
   if(out_number == "2")
   {
-    if (outAlarma == IO_ON)
+    if (outAlarma == OUT_ON)
     {
-      outAlarma = IO_OFF;
+      outAlarma = OUT_OFF;
       #if (_HTTP_SERIAL_DEBUG_ == 1)
       Serial.println("Alarma OFF");
       #endif
@@ -545,7 +584,7 @@ void _setOUTS()
     }
     else
     {
-      outAlarma = IO_ON;
+      outAlarma = OUT_ON;
       #if (_HTTP_SERIAL_DEBUG_ == 1)
       Serial.println("Alarma ON");
       #endif

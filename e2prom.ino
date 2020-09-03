@@ -89,10 +89,10 @@ void _readCONFIG (void)
     EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_LO,   EEPROM_VAL_NUMBEROF_ONS_LO);
     EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_HI,   EEPROM_VAL_NUMBEROF_ONS_HI);
 
-    EEPROM.write(EEPROM_ADD_TIMEOUT_AGUA,   EEPROM_VAL_TIMEOUT_AGUA);
-    EEPROM.write(EEPROM_ADD_TIMEOUT_ACITE,  EEPROM_VAL_TIMEOUT_ACITE);
-    EEPROM.write(EEPROM_ADD_TIMEOUT_AUX1,   EEPROM_VAL_TIMEOUT_AUX1);
-    EEPROM.write(EEPROM_ADD_TIMEOUT_AUX2,   EEPROM_VAL_TIMEOUT_AUX2);
+    EEPROM.write(EEPROM_ADD_TIMEOUT_IN0,   EEPROM_VAL_TIMEOUT_IN0);
+    EEPROM.write(EEPROM_ADD_TIMEOUT_IN1,   EEPROM_VAL_TIMEOUT_IN1);
+    EEPROM.write(EEPROM_ADD_TIMEOUT_IN2,   EEPROM_VAL_TIMEOUT_IN2);
+    EEPROM.write(EEPROM_ADD_TIMEOUT_IN3,   EEPROM_VAL_TIMEOUT_IN3);
 
     EEPROM.commit();    //Store data to EEPROM
   }
@@ -186,19 +186,19 @@ void _readCONFIG (void)
   eeprom_value_hi = EEPROM.read(EEPROM_ADD_NUMBEROF_ONS_HI);
   manitouNumberOfOns = ((eeprom_value_hi & 0x00FF)<<8)|(eeprom_value_lo & 0x00FF);
 
-  timeoutSecInAgua   = EEPROM.read(EEPROM_ADD_TIMEOUT_AGUA);
-  timeoutSecInAceite = EEPROM.read(EEPROM_ADD_TIMEOUT_ACITE);
-  timeoutSecInAux1   = EEPROM.read(EEPROM_ADD_TIMEOUT_AUX1);
-  timeoutSecInAux2   = EEPROM.read(EEPROM_ADD_TIMEOUT_AUX2);
+  inTimeoutSec[INDEX_AGUA]   = EEPROM.read(EEPROM_ADD_TIMEOUT_IN0);
+  inTimeoutSec[INDEX_ACEITE] = EEPROM.read(EEPROM_ADD_TIMEOUT_IN1);
+  inTimeoutSec[INDEX_AUX1]   = EEPROM.read(EEPROM_ADD_TIMEOUT_IN2);
+  inTimeoutSec[INDEX_AUX2]   = EEPROM.read(EEPROM_ADD_TIMEOUT_IN3);
 
   #if (_EEPROM_SERIAL_DEBUG_ == 1)
   Serial.print("Horas ON: ");        Serial.println(manitouNumberOfHours);
   Serial.print("Arranques: ");       Serial.println(manitouNumberOfOns);
   
-  Serial.print("Time Out Agua: ");   Serial.println(timeoutSecInAgua);
-  Serial.print("Time Out Aceite: "); Serial.println(timeoutSecInAceite);
-  Serial.print("Time Out Aux1: ");   Serial.println(timeoutSecInAux1);
-  Serial.print("Time Out Aux2: ");   Serial.println(timeoutSecInAux2);
+  Serial.print("Time Out Agua: ");   Serial.println(inTimeoutSec[INDEX_AGUA]);
+  Serial.print("Time Out Aceite: "); Serial.println(inTimeoutSec[INDEX_ACEITE]);
+  Serial.print("Time Out Aux1: ");   Serial.println(inTimeoutSec[INDEX_AUX1]);
+  Serial.print("Time Out Aux2: ");   Serial.println(inTimeoutSec[INDEX_AUX2]);
   #endif
 }
 

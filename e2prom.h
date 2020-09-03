@@ -38,10 +38,10 @@ extern "C" {
 #define EEPROM_ADD_NUMBEROF_ONS_LO    0x51
 #define EEPROM_ADD_NUMBEROF_ONS_HI    0x52
 
-#define EEPROM_ADD_TIMEOUT_AGUA       0x53
-#define EEPROM_ADD_TIMEOUT_ACITE      0x54
-#define EEPROM_ADD_TIMEOUT_AUX1       0x55
-#define EEPROM_ADD_TIMEOUT_AUX2       0x56
+#define EEPROM_ADD_TIMEOUT_IN0        0x53
+#define EEPROM_ADD_TIMEOUT_IN1        0x54
+#define EEPROM_ADD_TIMEOUT_IN2        0x55
+#define EEPROM_ADD_TIMEOUT_IN3        0x56
 
 //#define EEPROM_ADD_MAX              0xFA // 250
 
@@ -72,10 +72,10 @@ extern "C" {
 #define EEPROM_VAL_NUMBEROF_ONS_LO    0
 #define EEPROM_VAL_NUMBEROF_ONS_HI    0
 
-#define EEPROM_VAL_TIMEOUT_AGUA       2
-#define EEPROM_VAL_TIMEOUT_ACITE      10
-#define EEPROM_VAL_TIMEOUT_AUX1       1
-#define EEPROM_VAL_TIMEOUT_AUX2       1
+#define EEPROM_VAL_TIMEOUT_IN0        2   // Agua
+#define EEPROM_VAL_TIMEOUT_IN1        10  // Aceite
+#define EEPROM_VAL_TIMEOUT_IN2        1   // Aux1
+#define EEPROM_VAL_TIMEOUT_IN3        1   // Aux2
 
 #endif // _E2PROM_H_
 

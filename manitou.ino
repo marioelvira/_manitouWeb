@@ -4,8 +4,9 @@
 ////////////////////
 void _ManitouSetup(void)
 {
-  //manitouNumberOfStarts;        // Read from E2PROM
-  //manitouNumberOfHours          // Read from E2PROM
+  //manitouControlMode = MODE_AUTO;
+  //manitouNumberOfStarts;          // Read from E2PROM
+  //manitouNumberOfHours            // Read from E2PROM
   manitouNumberOfOns2Save = 1;
   manitouNumberOfHours2Save = 1;
   manitouNumberOfHours2Increment = 1;
@@ -22,7 +23,7 @@ void _ManitouLoop(void)
   // Gestion de Contadores //
   // --------------------- //
   
-  if (inMotor == IO_ON)
+  if (inValue[INDEX_MOTOR] == IN_ON)
   {
     // Si acabamos de arrancar
     if (manitouNumberOfOns2Save == 1)
@@ -44,8 +45,11 @@ void _ManitouLoop(void)
     }
 
     // Cada 10 minutos 
-    //if ((timeMin % 10) == 0) && (timeSec == 0))
+    #if (_MANITOU_DEBUG_ == 1)
     if ((timeSec % 9) == 0)
+    #else
+    if ((timeMin % 10) == 0) && (timeSec == 0))
+    #endif
     {
       // Incrementamos en decimas de hora
       if (manitouNumberOfHours2Increment == 1)
@@ -57,8 +61,11 @@ void _ManitouLoop(void)
       manitouNumberOfHours2Increment = 1;
 
     // Cada 30 minutos
-    //if ((timeMin % 30) == 0) && (timeSec == 0))
+    #if (_MANITOU_DEBUG_ == 1)
     if ((timeSec % 28) == 0)
+    #else
+    if ((timeMin % 30) == 0) && (timeSec == 0))
+    #endif
     {      
       // Incrementamos en decimas de hora
       if (manitouNumberOfHours2Save == 1)
