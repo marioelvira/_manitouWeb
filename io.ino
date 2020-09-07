@@ -34,7 +34,7 @@ void _IOLoop(int i)
       }
       else
       {
-        if (millis() - inTimeTick[i] >= inTimeoutSec[i])
+        if (millis() - inTimeTick[i] >= (inTimeoutSec[i]*1000))
         {
           // Rele de corte
           outValue[i] = OUT_ON;

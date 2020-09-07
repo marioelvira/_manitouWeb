@@ -38,8 +38,8 @@ extern "C" {
 #define PIN_AUX1          10  // inValue[2]
 #define PIN_AUX2           9  // inValue[3]
 
-#define PIN_OUT_ON        0
-#define PIN_OUT_OFF       1
+#define PIN_OUT_ON        1
+#define PIN_OUT_OFF       0
 
 #define PIN_IN_OFF        1
 
