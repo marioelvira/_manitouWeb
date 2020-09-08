@@ -37,10 +37,13 @@ void _serveMAIN()
   html = html + "<h2>Entradas Digitales:</h2><p id=\"INSid\">...</p>";
   html = html + "<h2>Salidas Digitales:</h2><p id=\"OUTSid\">...</p>";
   html = html + "<h2>Control:</h2><p>";
-  html = html + "  <input type=\"button\" value=\"Modo\" onclick=\"sendOUT(0)\">";
-  html = html + "  <input type=\"button\" value=\"Rele\" onclick=\"sendOUT(1)\">";
-  html = html + "  <input type=\"button\" value=\"Alarma\" onclick=\"sendOUT(2)\">";
+  html = html + "  <input type=\"button\" value=\"Cambiar Modo\" onclick=\"sendOUT(0)\">";
+  html = html + "  <input type=\"button\" value=\"Reset Contadores\" onclick=\"sendOUT(1)\">";
+  html = html + "</p><p>";
+  html = html + "  <input type=\"button\" value=\"Rele\" onclick=\"sendOUT(10)\">";
+  html = html + "  <input type=\"button\" value=\"Alarma\" onclick=\"sendOUT(11)\">";
   //html = html + "  <a href=\"settings.htm\"><input type=\"button\" value=\"Settings\"></a>";
+  html = html + "  <a href=\"timeSettings.htm\"><input type=\"button\" value=\"Configuracion\"></a>";
   html = html + "</p>";
   html = html + "</div>";
 
@@ -101,6 +104,54 @@ void _serveMAIN()
   html = html + "</form>";
   html = html + "</div>";
   
+  html = html + "</body> ";
+  html = html + "</html>";
+
+  httpServer.send (200, "text/html", html);
+}
+
+void _serveTimeSETTINGS()
+{
+  //int mobile = 0;
+  String html = "";
+  
+  html = "<!DOCTYPE HTML><html>";
+  html = html + "<title>Settings</title>";
+  html = html + "<head>";
+  html = html + "<link rel=\"icon\" href=\"data:,\">";
+  html = html + "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />";
+  //html = html + "<meta name='apple-mobile-web-app-capable' content='yes' />";
+  //html = html + "<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />";
+  html = html + "</head>";
+
+  html = html + "<body>";
+  html = html + "<div class=\"myform\">";
+  html = html + "<h1>MANUTOU+ #Settings<span>ESP8266 tech</span></h1>";
+  //html = html + "<form method=\"post\">";
+  html = html + "<form method='get' action='timeSettings'>";
+
+  // Temporizaciones
+  html = html + "<div class=\"section\"><span>1</span>Temporizaciones</div>";
+  html = html + "<div class=\"inner-wrap\">";
+  
+  html = html + "<label>Tiempo In0 (secs): <input type=\"text\"  maxlength=\"16\" value=\"" + String(inTimeoutSec[0]) + "\" name=\"time0\"/></label>";
+  html = html + "<label>Tiempo In1 (secs): <input type=\"text\"  maxlength=\"16\" value=\"" + String(inTimeoutSec[1]) + "\" name=\"time1\"/></label>";
+  html = html + "<label>Tiempo In2 (secs): <input type=\"text\"  maxlength=\"16\" value=\"" + String(inTimeoutSec[2]) + "\" name=\"time2\"/></label>";
+  html = html + "<label>Tiempo In3 (secs): <input type=\"text\"  maxlength=\"16\" value=\"" + String(inTimeoutSec[3]) + "\" name=\"time3\"/></label>";
+  
+  html = html + "</div>";
+  // End
+  
+  html = html + "<div class=\"button-section\">";
+  html = html + "  <input type=\"submit\" value=\"Save\">";
+  html = html + "  <a href=\"index.htm\"><input type=\"button\" value=\"Back\"></a>";
+  html = html + "</div>";
+  
+  html = html + "</div>";
+  html = html + "</div>";
+  html = html + "</form>";
+  html = html + "</div>";
+
   html = html + "</body> ";
   html = html + "</html>";
 
@@ -529,7 +580,7 @@ void _setOUTS()
   Serial.println(out_number);
   #endif
 
-  // Modo
+  // Cambiar Modo
   if(out_number == "0")
   {
     if (manitouControlMode == MODE_TEST)
@@ -550,8 +601,24 @@ void _setOUTS()
     }
   }
 
-  // Relé corte
+  // Reset contadores
   if(out_number == "1")
+  {
+    // Manitou Data
+    EEPROM.write(EEPROM_ADD_NUMBEROF_HOURS_LO, EEPROM_VAL_NUMBEROF_HOURS_LO);
+    EEPROM.write(EEPROM_ADD_NUMBEROF_HOURS_HI, EEPROM_VAL_NUMBEROF_HOURS_HI);
+
+    EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_LO,   EEPROM_VAL_NUMBEROF_ONS_LO);
+    EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_HI,   EEPROM_VAL_NUMBEROF_ONS_HI);
+    
+    EEPROM.commit();    //Store data to EEPROM
+
+    manitouNumberOfHours = 0;
+    manitouNumberOfOns = 0;
+  }
+
+  // Relé corte
+  if(out_number == "10")
   {
     if (outReleCorte == OUT_ON)
     {
@@ -572,7 +639,7 @@ void _setOUTS()
   }
  
   // Alarma
-  if(out_number == "2")
+  if(out_number == "11")
   {
     if (outAlarma == OUT_ON)
     {
@@ -619,9 +686,10 @@ void _HttpLoop()
       httpServer.on("/style.css",        _serveCSS);
 
       // html pages
-      httpServer.on("/",                 _serveMAIN);
-      httpServer.on("/index.htm",        _serveMAIN);
-      //httpServer.on("/settings.htm",   _serveSETTINGS);
+      httpServer.on("/",                  _serveMAIN);
+      httpServer.on("/index.htm",         _serveMAIN);
+      //httpServer.on("/settings.htm",    _serveSETTINGS);
+      httpServer.on("/timeSettings.htm",  _serveTimeSETTINGS);
 
       // acctions
       httpServer.on("/setOUTS",          _setOUTS);

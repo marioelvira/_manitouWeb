@@ -5,7 +5,7 @@ void _ConfigSetup(void)
   _ReadEEPROM();
   delay(1000);
   #endif
-    
+
   // Config setup
   #if (_ERASE_EEPROM_ == 1)
     _ResetEEPROM();

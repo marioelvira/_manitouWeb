@@ -38,10 +38,10 @@ void _IOLoop(int i)
         {
           // Rele de corte
           outValue[i] = OUT_ON;
-        }
 
-        // Indicar Alarma
-        outAlarm[i] = OUT_ON;
+          // Indicar Alarma
+          outAlarm[i] = OUT_ON;
+        }
       }
       break;
       

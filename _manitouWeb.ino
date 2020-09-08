@@ -23,10 +23,10 @@ int outAlarma;
 /////////////////////////
 int inValue[5];
 int inState[4];
-int inTimeTick[4];
+unsigned long inTimeTick[4];
 int outValue[4];
 int outAlarm[4];
-int inTimeoutSec[4];
+unsigned long inTimeoutSec[4];
 
 ///////////
 // Wi-Fi //
