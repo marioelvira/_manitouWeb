@@ -112,7 +112,6 @@ void _serveMAIN()
 
 void _serveTimeSETTINGS()
 {
-  //int mobile = 0;
   String html = "";
   
   html = "<!DOCTYPE HTML><html>";
@@ -120,15 +119,13 @@ void _serveTimeSETTINGS()
   html = html + "<head>";
   html = html + "<link rel=\"icon\" href=\"data:,\">";
   html = html + "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />";
-  //html = html + "<meta name='apple-mobile-web-app-capable' content='yes' />";
-  //html = html + "<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />";
   html = html + "</head>";
 
   html = html + "<body>";
   html = html + "<div class=\"myform\">";
   html = html + "<h1>MANUTOU+ #Settings<span>ESP8266 tech</span></h1>";
   //html = html + "<form method=\"post\">";
-  html = html + "<form method='get' action='timeSettings'>";
+  html = html + "<form method='get' action='setTimeSettings'>";
 
   // Temporizaciones
   html = html + "<div class=\"section\"><span>1</span>Temporizaciones</div>";
@@ -150,6 +147,78 @@ void _serveTimeSETTINGS()
   html = html + "</div>";
   html = html + "</div>";
   html = html + "</form>";
+  html = html + "</div>";
+
+  html = html + "</body> ";
+  html = html + "</html>";
+
+  httpServer.send (200, "text/html", html);
+}
+
+void _setTimeSETTINGS()
+{
+  String html = "";
+  
+  String rtime0 = httpServer.arg("time0");
+  String rtime1 = httpServer.arg("time1");
+  String rtime2 = httpServer.arg("time2");
+  String rtime3 = httpServer.arg("time3");
+
+  int error = 0;
+
+  if ((rtime0.length() == 0) ||
+      (rtime1.length() == 0) ||
+      (rtime2.length() == 0) ||
+      (rtime3.length() == 0))
+  {
+    error = 1;  // falta un campo...
+    #if (_HTTP_SERIAL_DEBUG_ == 1)
+    Serial.println("Error... parametro vacío.");
+    #endif
+  }
+
+  // Si no hay error...
+  if (error == 0)
+  {
+    inTimeoutSec[0] = rtime0.toInt();
+    inTimeoutSec[1] = rtime1.toInt();
+    inTimeoutSec[2] = rtime2.toInt();
+    inTimeoutSec[3] = rtime3.toInt();
+    
+    #if (_HTTP_SERIAL_DEBUG_ == 1)
+    Serial.print("Timeout0 (sec): "); Serial.println(inTimeoutSec[0]);
+    Serial.print("Timeout1 (sec): "); Serial.println(inTimeoutSec[1]);
+    Serial.print("Timeout2 (sec): "); Serial.println(inTimeoutSec[2]);
+    Serial.print("Timeout3 (sec): "); Serial.println(inTimeoutSec[3]);
+    #endif
+
+    EEPROM.write(EEPROM_ADD_TIMEOUT_IN0, (byte)inTimeoutSec[0]);
+    EEPROM.write(EEPROM_ADD_TIMEOUT_IN1, (byte)inTimeoutSec[1]);
+    EEPROM.write(EEPROM_ADD_TIMEOUT_IN2, (byte)inTimeoutSec[2]);
+    EEPROM.write(EEPROM_ADD_TIMEOUT_IN3, (byte)inTimeoutSec[3]);
+  }
+
+  html = "<!DOCTYPE HTML><html>";
+  html = html + "<title>Settings</title>";
+  html = html + "<head>";
+  html = html + "<link rel=\"icon\" href=\"data:,\">";
+  html = html + "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />";
+  html = html + "</head>";
+
+  html = html + "<body>";
+
+  html = html + "<div class=\"myform\">";
+  html = html + "<h1>MANUTOU+ #Settings<span>ESP8266 tech</span></h1>";
+  
+  if (error == 0)
+    html += "<p>Settings OK: Saved</p>";
+  else
+    html += "<p>Settings Error: Not Saved</p>";
+
+  html = html + "<div class=\"button-section\">";
+  html = html + "  <a href=\"index.htm\"><input type=\"button\" value=\"Volver\"></a>";
+  html = html + "</div>";
+
   html = html + "</div>";
 
   html = html + "</body> ";
@@ -697,6 +766,7 @@ void _HttpLoop()
       httpServer.on("/readINS",          _readINS);
       httpServer.on("/readTEMPS",        _readTEMPS);
       //httpServer.on("/networSettings", _setSETTINGS);
+      httpServer.on("/setTimeSettings",  _setTimeSETTINGS);
 
       httpServer.begin();
 

@@ -186,10 +186,10 @@ void _readCONFIG (void)
   eeprom_value_hi = EEPROM.read(EEPROM_ADD_NUMBEROF_ONS_HI);
   manitouNumberOfOns = ((eeprom_value_hi & 0x00FF)<<8)|(eeprom_value_lo & 0x00FF);
 
-  inTimeoutSec[INDEX_AGUA]   = EEPROM.read(EEPROM_ADD_TIMEOUT_IN0);
-  inTimeoutSec[INDEX_ACEITE] = EEPROM.read(EEPROM_ADD_TIMEOUT_IN1);
-  inTimeoutSec[INDEX_AUX1]   = EEPROM.read(EEPROM_ADD_TIMEOUT_IN2);
-  inTimeoutSec[INDEX_AUX2]   = EEPROM.read(EEPROM_ADD_TIMEOUT_IN3);
+  inTimeoutSec[INDEX_AGUA]   = (unsigned long)EEPROM.read(EEPROM_ADD_TIMEOUT_IN0);
+  inTimeoutSec[INDEX_ACEITE] = (unsigned long)EEPROM.read(EEPROM_ADD_TIMEOUT_IN1);
+  inTimeoutSec[INDEX_AUX1]   = (unsigned long)EEPROM.read(EEPROM_ADD_TIMEOUT_IN2);
+  inTimeoutSec[INDEX_AUX2]   = (unsigned long)EEPROM.read(EEPROM_ADD_TIMEOUT_IN3);
 
   #if (_EEPROM_SERIAL_DEBUG_ == 1)
   Serial.print("Horas ON: ");        Serial.println(manitouNumberOfHours);
