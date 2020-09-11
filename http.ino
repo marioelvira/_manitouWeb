@@ -23,27 +23,35 @@ void _serveMAIN()
   String html = "";
   
   html = "<!DOCTYPE HTML><html>";
-  html = html + "<title>Status</title>";
+  html = html + "<title>MANITOU+ Estado</title>";
   html = html + "<head>";
+  html = html + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>";
   html = html + "<link rel=\"icon\" href=\"data:,\">";
   html = html + "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />";
   html = html + "</head>";
 
   html = html + "<body>";
   html = html + "<div class=\"myform\">";
-  html = html + "<h1>MANITOU+ #Status<span>ESP8266 tech</span></h1>";
+  html = html + "<h1>MANITOU+ #Estado<span>ESP8266 tech</span></h1>";
 
-  html = html + "<h2>Temporizaciones:</h2><p id=\"TEMPSid\">...</p>";
-  html = html + "<h2>Entradas Digitales:</h2><p id=\"INSid\">...</p>";
-  html = html + "<h2>Salidas Digitales:</h2><p id=\"OUTSid\">...</p>";
-  html = html + "<h2>Control:</h2><p>";
+  html = html + "<div class=\"section\"><span>1</span>Temporizaciones</div>";
+  html = html + "<p class=\"sansserif\" id=\"TEMPSid\">...</p>";
+  html = html + "<div class=\"section\"><span>2</span>Entradas Digitales</div>";
+  html = html + "<p class=\"sansserif\" id=\"INSid\">...</p>";
+  html = html + "<div class=\"section\"><span>3</span>Salidas Digitales</div>";
+  html = html + "<p class=\"sansserif\" id=\"OUTSid\">...</p>";
+  html = html + "<div class=\"section\"><span>4</span>Control</div>";
+  html = html + "<p>";
   html = html + "  <input type=\"button\" value=\"Cambiar Modo\" onclick=\"sendOUT(0)\">";
   html = html + "  <input type=\"button\" value=\"Reset Contadores\" onclick=\"sendOUT(1)\">";
   html = html + "</p><p>";
   html = html + "  <input type=\"button\" value=\"Rele\" onclick=\"sendOUT(10)\">";
   html = html + "  <input type=\"button\" value=\"Alarma\" onclick=\"sendOUT(11)\">";
+  html = html + "</p>";
+  html = html + "<div class=\"section\"><span>4</span>Configuraci&oacuten</div>";
+  html = html + "<p>";
   //html = html + "  <a href=\"settings.htm\"><input type=\"button\" value=\"Settings\"></a>";
-  html = html + "  <a href=\"timeSettings.htm\"><input type=\"button\" value=\"Configuracion\"></a>";
+  html = html + "  <a href=\"timeSettings.htm\"><input type=\"button\" value=\"Cambiar\"></a>";
   html = html + "</p>";
   html = html + "</div>";
 
@@ -115,33 +123,33 @@ void _serveTimeSETTINGS()
   String html = "";
   
   html = "<!DOCTYPE HTML><html>";
-  html = html + "<title>Settings</title>";
+  html = html + "<title>MANUTOU+ #Configuraci&oacuten</title>";
   html = html + "<head>";
+  html = html + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>";
   html = html + "<link rel=\"icon\" href=\"data:,\">";
   html = html + "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />";
   html = html + "</head>";
 
   html = html + "<body>";
   html = html + "<div class=\"myform\">";
-  html = html + "<h1>MANUTOU+ #Settings<span>ESP8266 tech</span></h1>";
-  //html = html + "<form method=\"post\">";
+  html = html + "<h1>MANUTOU+ #Configuraci&oacuten<span>ESP8266 tech</span></h1>";
   html = html + "<form method='get' action='setTimeSettings'>";
 
   // Temporizaciones
   html = html + "<div class=\"section\"><span>1</span>Temporizaciones</div>";
   html = html + "<div class=\"inner-wrap\">";
   
-  html = html + "<label>Tiempo In0 (secs): <input type=\"text\"  maxlength=\"16\" value=\"" + String(inTimeoutSec[0]) + "\" name=\"time0\"/></label>";
-  html = html + "<label>Tiempo In1 (secs): <input type=\"text\"  maxlength=\"16\" value=\"" + String(inTimeoutSec[1]) + "\" name=\"time1\"/></label>";
-  html = html + "<label>Tiempo In2 (secs): <input type=\"text\"  maxlength=\"16\" value=\"" + String(inTimeoutSec[2]) + "\" name=\"time2\"/></label>";
-  html = html + "<label>Tiempo In3 (secs): <input type=\"text\"  maxlength=\"16\" value=\"" + String(inTimeoutSec[3]) + "\" name=\"time3\"/></label>";
+  html = html + "<label>Tiempo espera Entrada Agua (segundos)<input type=\"text\"  maxlength=\"16\" value=\"" + String(inTimeoutSec[0]) + "\" name=\"time0\"/></label>";
+  html = html + "<label>Tiempo espera Entrada Aceite (segundos)<input type=\"text\"  maxlength=\"16\" value=\"" + String(inTimeoutSec[1]) + "\" name=\"time1\"/></label>";
+  html = html + "<label>Tiempo espera Entrada Aux1 (segundos)<input type=\"text\"  maxlength=\"16\" value=\"" + String(inTimeoutSec[2]) + "\" name=\"time2\"/></label>";
+  html = html + "<label>Tiempo espera Entrada Aux2 (segundos)<input type=\"text\"  maxlength=\"16\" value=\"" + String(inTimeoutSec[3]) + "\" name=\"time3\"/></label>";
   
   html = html + "</div>";
   // End
   
   html = html + "<div class=\"button-section\">";
-  html = html + "  <input type=\"submit\" value=\"Save\">";
-  html = html + "  <a href=\"index.htm\"><input type=\"button\" value=\"Back\"></a>";
+  html = html + "  <input type=\"submit\" value=\"Guardar\">";
+  html = html + "  <a href=\"index.htm\"><input type=\"button\" value=\"Volver\"></a>";
   html = html + "</div>";
   
   html = html + "</div>";
@@ -199,8 +207,9 @@ void _setTimeSETTINGS()
   }
 
   html = "<!DOCTYPE HTML><html>";
-  html = html + "<title>Settings</title>";
+  html = html + "<title>MANUTOU+ #Configuraci&oacuten</title>";
   html = html + "<head>";
+  html = html + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>";
   html = html + "<link rel=\"icon\" href=\"data:,\">";
   html = html + "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />";
   html = html + "</head>";
@@ -208,12 +217,12 @@ void _setTimeSETTINGS()
   html = html + "<body>";
 
   html = html + "<div class=\"myform\">";
-  html = html + "<h1>MANUTOU+ #Settings<span>ESP8266 tech</span></h1>";
+  html = html + "<h1>MANUTOU+ #Configuraci&oacuten<span>ESP8266 tech</span></h1>";
   
   if (error == 0)
-    html += "<p>Settings OK: Saved</p>";
+    html += "<p class=\"sansserif\">Configuraci&oacuten guardada correctamente.</p>";
   else
-    html += "<p>Settings Error: Not Saved</p>";
+    html += "<p class=\"sansserif\">Error el guardar la configuraci&oacuten. Revise los datos introducidos.</p>";
 
   html = html + "<div class=\"button-section\">";
   html = html + "  <a href=\"index.htm\"><input type=\"button\" value=\"Volver\"></a>";
@@ -589,53 +598,86 @@ void _readINS()
 { 
   String html = "";
 
+  html = "<table style=\"width:100%\">";
+  
+  html = html + "<tr>";
+  html = html + "<td>Modo</td>";
   if (manitouControlMode == MODE_AUTO)
-   html = "<div>Mode: Auto</div>";
+   html = html + "<td><font style=\"color:blue\">Autom&aacutetico</font></td>";
   else
-   html = "<div>Mode: Test</div>";
-
+   html = html + "<td><font style=\"color:red\">Control Manual</font></td>";
+  html = html + "</tr>";
+  
+  html = html + "<tr>";
+  html = html + "<td>Motor</td>";
   if (inValue[INDEX_MOTOR] == IN_ON)
-   html = html + "<div>Motor: ON</div>";
+   html = html + "<td><font style=\"color:green\">Encendido</font></td>";
   else
-   html = html + "<div>Motor: OFF</div>";
-
+   html = html + "<td><font style=\"color:grey\">Apagado</font></td>";
+  html = html + "</tr>";
+  
+  html = html + "<tr>";
+  html = html + "<td>Alarma Agua</td>";
   if (inValue[INDEX_AGUA] == IN_ON)
-   html = html + "<div>Alarma Agua: ON</div>";
+   html = html + "<td><font style=\"color:red\">Activa</font></td>";
   else
-   html = html + "<div>Alarma Agua: OFF</div>";
-
+   html = html + "<td><font style=\"color:grey\">OFF</font></td>";
+  html = html + "</tr>";
+  
+  html = html + "<tr>";
+  html = html + "<td>Alarma Aceite</td>";
   if (inValue[INDEX_ACEITE] == IN_ON)
-   html = html + "<div>Alarma Aceite: ON</div>";
+   html = html + "<td><font style=\"color:red\">Activa</font></td>";
   else
-   html = html + "<div>Alarma Aceite: OFF</div>";
-
+   html = html + "<td><font style=\"color:grey\">OFF</font></td>";
+  html = html + "</tr>";
+  
+  html = html + "<tr>";
+  html = html + "<td>Alarma Aux1</td>";
   if (inValue[INDEX_AUX1] == IN_ON)
-   html = html + "<div>Alarma Aux1: ON</div>";
+   html = html + "<td><font style=\"color:red\">Activa</font></td>";
   else
-   html = html + "<div>Alarma Aux1: OFF</div>";
-
+   html = html + "<td><font style=\"color:grey\">OFF</font></td>";
+  html = html + "</tr>";
+  
+  html = html + "<tr>";
+  html = html + "<td>Alarma Aux2</td>";
   if (inValue[INDEX_AUX2] == IN_ON)
-   html = html + "<div>Alarma Aux2: ON</div>";
+   html = html + "<td><font style=\"color:red\">Activa</font></td>";
   else
-   html = html + "<div>Alarma Aux2: OFF</div>";
+   html = html + "<td><font style=\"color:grey\">OFF</font></td>";
+  html = html + "</tr>";
+  html = html + "<tr>";
 
+  html = html + "</table>";
+  
   httpServer.send(200, "text/plane", html);
 }
 
 void _readOUTS()
 {
   String html = "";
+
+  html = "<table style=\"width:100%\">";
   
+  html = html + "<tr>";
+  html = html + "<td>Corte General</td>";
   if (outReleCorte == OUT_ON)
-   html = "<div>Rele Corte: ON</div>";
+   html = html + "<td><font style=\"color:red\">Activado</font></td>";
   else
-   html = "<div>Rele Corte: OFF</div>";
-
+   html = html + "<td><font style=\"color:grey\">Desactivado</font></td>";
+  html = html + "</tr>";
+  
+  html = html + "<tr>";
+  html = html + "<td>Aviso Alarma</td>";
   if (outAlarma == OUT_ON)
-   html = html + "<div>Aviso Alarma: ON</div>";
+   html = html + "<td><font style=\"color:red\">Activado</font></td>";
   else
-   html = html + "<div>Aviso Alarma: OFF</div>";
-
+   html = html + "<td><font style=\"color:grey\">Desactivado</font></td>";
+  html = html + "</tr>";
+    
+  html = html + "</table>";
+  
   httpServer.send(200, "text/plane", html);
 }
  
@@ -735,10 +777,25 @@ void _readTEMPS()
 { 
   String html = "";
 
-  html = "<div>Tiempo ON: " + String(timeHour) + " : " + String(timeMin) + " : " + String(timeSec) + "</div>";
-  html = html + "<div>Horas ON: " + String(manitouNumberOfHours) + "</div>";
-  html = html + "<div>Arranques: " + String(manitouNumberOfOns) + "</div>";
+  html = "<table style=\"width:100%\">";
+  
+  html = html + "<tr>";
+  html = html + "<td>Tiempo Encendio</td>";
+  html = html + "<td>" + String(timeHour) + " : " + String(timeMin) + " : " + String(timeSec) + "</td>";
+  html = html + "</tr>";
 
+  html = html + "<tr>";
+  html = html + "<td>Horas Encendio</td>";
+  html = html + "<td>" + String(manitouNumberOfHours) + "</td>";
+  html = html + "</tr>";
+
+  html = html + "<tr>";
+  html = html + "<td>N&uacutemero Arranques</td>";
+  html = html + "<td>" + String(manitouNumberOfOns) + "</td>";
+  html = html + "</tr>";
+
+  html = html + "</table>";
+  
   httpServer.send(200, "text/plane", html);
 }
 
