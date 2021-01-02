@@ -87,8 +87,9 @@ int manitouControlMode = MODE_AUTO;
 int manitouNumberOfOns = 0;
 int manitouNumberOfOns2Save = 1;
 int manitouNumberOfHours = 0;
-int manitouNumberOfHours2Save = 1;
-int manitouNumberOfHours2Increment = 1;
+int manitouNumberOfMins = 0;
+int manitouNumberOfMins2Increment = 1;
+int manitouOnFilter = 0;
 
 //////////
 // Time //
@@ -236,8 +237,8 @@ void loop()
   
   _IOLoop(INDEX_AGUA);    // Agua
   _IOLoop(INDEX_ACEITE);  // Aceite
-  //_IOLoop(INDEX_AUX1);  // Aux1
-  //_IOLoop(INDEX_AUX2);  // Aux2
+  _IOLoop(INDEX_AUX1);    // Aux1
+  _IOLoop(INDEX_AUX2);    // Aux2
 
   if (manitouControlMode == MODE_AUTO)
     _OUTSLoop();

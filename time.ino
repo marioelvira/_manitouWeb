@@ -24,7 +24,7 @@ void _TimeLoop(void)
       timeMin++;
       if (timeMin >= 60)
       {
-        timeSec = 0;
+        timeMin = 0;
         timeHour++;
       }
     }

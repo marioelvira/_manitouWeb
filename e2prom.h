@@ -35,18 +35,20 @@ extern "C" {
 // Manitou
 #define EEPROM_ADD_NUMBEROF_HOURS_LO  0x4F
 #define EEPROM_ADD_NUMBEROF_HOURS_HI  0x50
-#define EEPROM_ADD_NUMBEROF_ONS_LO    0x51
-#define EEPROM_ADD_NUMBEROF_ONS_HI    0x52
+#define EEPROM_ADD_NUMBEROF_MINS_LO   0x51
+#define EEPROM_ADD_NUMBEROF_MINS_HI   0x52
+#define EEPROM_ADD_NUMBEROF_ONS_LO    0x53
+#define EEPROM_ADD_NUMBEROF_ONS_HI    0x54
 
-#define EEPROM_ADD_TIMEOUT_IN0        0x53
-#define EEPROM_ADD_TIMEOUT_IN1        0x54
-#define EEPROM_ADD_TIMEOUT_IN2        0x55
-#define EEPROM_ADD_TIMEOUT_IN3        0x56
+#define EEPROM_ADD_TIMEOUT_IN0        0x55
+#define EEPROM_ADD_TIMEOUT_IN1        0x56
+#define EEPROM_ADD_TIMEOUT_IN2        0x57
+#define EEPROM_ADD_TIMEOUT_IN3        0x58
 
 //#define EEPROM_ADD_MAX              0xFA // 250
 
 // Values
-#define EEPROM_VAL_OK             0xA1
+#define EEPROM_VAL_OK             0xA0
 
 #define EEPROM_VAL_IP_MODE        DHCP_MODE
 #define EEPROM_VAL_IP1            192
@@ -69,13 +71,15 @@ extern "C" {
 // Manitou
 #define EEPROM_VAL_NUMBEROF_HOURS_LO  0
 #define EEPROM_VAL_NUMBEROF_HOURS_HI  0
+#define EEPROM_VAL_NUMBEROF_MINS_LO   0
+#define EEPROM_VAL_NUMBEROF_MINS_HI   0
 #define EEPROM_VAL_NUMBEROF_ONS_LO    0
 #define EEPROM_VAL_NUMBEROF_ONS_HI    0
 
 #define EEPROM_VAL_TIMEOUT_IN0        2   // Agua
 #define EEPROM_VAL_TIMEOUT_IN1        10  // Aceite
-#define EEPROM_VAL_TIMEOUT_IN2        1   // Aux1
-#define EEPROM_VAL_TIMEOUT_IN3        1   // Aux2
+#define EEPROM_VAL_TIMEOUT_IN2        10  // Aux1
+#define EEPROM_VAL_TIMEOUT_IN3        10  // Aux2
 
 #endif // _E2PROM_H_
 

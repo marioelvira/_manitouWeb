@@ -85,6 +85,8 @@ void _readCONFIG (void)
     // Manitou Data
     EEPROM.write(EEPROM_ADD_NUMBEROF_HOURS_LO, EEPROM_VAL_NUMBEROF_HOURS_LO);
     EEPROM.write(EEPROM_ADD_NUMBEROF_HOURS_HI, EEPROM_VAL_NUMBEROF_HOURS_HI);
+    EEPROM.write(EEPROM_ADD_NUMBEROF_MINS_LO, EEPROM_VAL_NUMBEROF_MINS_LO);
+    EEPROM.write(EEPROM_ADD_NUMBEROF_MINS_HI, EEPROM_VAL_NUMBEROF_MINS_HI);
 
     EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_LO,   EEPROM_VAL_NUMBEROF_ONS_LO);
     EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_HI,   EEPROM_VAL_NUMBEROF_ONS_HI);
@@ -181,7 +183,10 @@ void _readCONFIG (void)
   eeprom_value_lo = EEPROM.read(EEPROM_ADD_NUMBEROF_HOURS_LO);
   eeprom_value_hi = EEPROM.read(EEPROM_ADD_NUMBEROF_HOURS_HI);
   manitouNumberOfHours = ((eeprom_value_hi & 0x00FF)<<8)|(eeprom_value_lo & 0x00FF);
-
+  eeprom_value_lo = EEPROM.read(EEPROM_ADD_NUMBEROF_MINS_LO);
+  eeprom_value_hi = EEPROM.read(EEPROM_ADD_NUMBEROF_MINS_HI);
+  manitouNumberOfMins = ((eeprom_value_hi & 0x00FF)<<8)|(eeprom_value_lo & 0x00FF);
+  
   eeprom_value_lo = EEPROM.read(EEPROM_ADD_NUMBEROF_ONS_LO);
   eeprom_value_hi = EEPROM.read(EEPROM_ADD_NUMBEROF_ONS_HI);
   manitouNumberOfOns = ((eeprom_value_hi & 0x00FF)<<8)|(eeprom_value_lo & 0x00FF);

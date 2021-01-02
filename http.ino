@@ -718,6 +718,8 @@ void _setOUTS()
     // Manitou Data
     EEPROM.write(EEPROM_ADD_NUMBEROF_HOURS_LO, EEPROM_VAL_NUMBEROF_HOURS_LO);
     EEPROM.write(EEPROM_ADD_NUMBEROF_HOURS_HI, EEPROM_VAL_NUMBEROF_HOURS_HI);
+    EEPROM.write(EEPROM_ADD_NUMBEROF_MINS_LO, EEPROM_VAL_NUMBEROF_MINS_LO);
+    EEPROM.write(EEPROM_ADD_NUMBEROF_MINS_HI, EEPROM_VAL_NUMBEROF_MINS_HI);
 
     EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_LO,   EEPROM_VAL_NUMBEROF_ONS_LO);
     EEPROM.write(EEPROM_ADD_NUMBEROF_ONS_HI,   EEPROM_VAL_NUMBEROF_ONS_HI);
@@ -725,6 +727,7 @@ void _setOUTS()
     EEPROM.commit();    //Store data to EEPROM
 
     manitouNumberOfHours = 0;
+    manitouNumberOfMins = 0;
     manitouNumberOfOns = 0;
   }
 
@@ -786,7 +789,7 @@ void _readTEMPS()
 
   html = html + "<tr>";
   html = html + "<td>Horas Encendio</td>";
-  html = html + "<td>" + String(manitouNumberOfHours) + "</td>";
+  html = html + "<td>" + String(manitouNumberOfHours) + " : " + String(manitouNumberOfMins) + "</td>";
   html = html + "</tr>";
 
   html = html + "<tr>";
